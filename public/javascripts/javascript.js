@@ -7,7 +7,7 @@ var hitApi = function(){
     event.preventDefault();
     var nameSearch = $('#nameSearch').val();
     var response = $.ajax({
-      url: 'http://localhost:3000/api',
+      url: 'http://destiny-lookup.herokuapp.com/api',
       type: 'GET',
       data: {name: nameSearch}
     })
