@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   get 'api_inventory' => 'api#inventory'
   get 'api_history' => 'api#history'
   get 'api_progression' => 'api#progression'
+  get 'api_unique' => 'api#unique'
+  get 'api_summary' => 'api#summary'
   get 'api' => 'api#stats'
   get 'api_node' => 'api#node'
   root :to => redirect('/index.html')
