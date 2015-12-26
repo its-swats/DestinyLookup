@@ -6,13 +6,36 @@
     <script src='javascripts/javascript.js'></script>
   </head>
   <body>
-  <input type='text' id='nameSearch'>
-  <button id='hitApi'>Hit API</button>
+  <div>
+    <h3>Enter your Online Handle</h3>
+    <input type='text' id='nameSearch'>
+    <button id='searchName'>Gather Data</button>
+  </div>
+  <div id='gatheredData'>
+  </div>
   <div id='dataHere'>
     
   </div>
   </body>
 </html>
+
+<script id='gatherInfo' type='text/x-handlebars-template'>
+    <form id='hitApi'>
+      <input type='hidden' name='membershipType' value='{{info.membershipType}}'>
+      <input type='hidden' name='membershipId' value='{{info.membershipId}}'>
+      <select name='charSelect'>
+        <option value='{{info.characterOne}}'>Character 1</option>
+        <option value='{{info.characterTwo}}'>Character 2</option>
+        <option value='{{info.characterThree}}'>Character 3</option>
+      </select>
+      <select name='apiHitType'>
+        <option value='history'>Activity History</option>
+        <option value='inventory'>Retrieve Inventory</option>
+        <option value='progression'>Progression Details</option>
+      </select>
+      <input type='submit'>
+    </form>
+</script>
 
 <script id='displayData' type='text/x-handlebars-template'>
   <p>some stuff</p>

@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   
-  resources :api
+  get 'api_gather' => 'api#gather'
+  get 'api_inventory' => 'api#inventory'
+  get 'api_history' => 'api#history'
+  get 'api_progression' => 'api#progression'
+  get 'api' => 'api#stats'
+  get 'api_node' => 'api#node'
   root :to => redirect('/index.html')
 
   # The priority is based upon order of creation: first created -> highest priority.
