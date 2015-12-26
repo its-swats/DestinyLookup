@@ -36,6 +36,18 @@ class ApiController < ApplicationController
     render json: {response: response.parsed_response}
   end
 
+  def unique
+    response = HTTParty.get("http://www.bungie.net/Platform/Destiny/Stats/UniqueWeapons/#{params[:membershipType]}/#{params[:membershipId]}/#{params[:charSelect]}/?definitions=True",
+                            :headers => {"X-API-Key" => BUNGIE_KEY})
+    render json: {response: response.parsed_response}
+  end
+
+  def summary
+    response = HTTParty.get("http://www.bungie.net/Platform/Destiny/#{params[:membershipType]}/Account/#{params[:membershipId]}/Character/#{params[:charSelect]}/?definitions=True",
+                            :headers => {"X-API-Key" => BUNGIE_KEY})
+    render json: {response: response.parsed_response}
+  end
+
   # def stats
   #   response = HTTParty.get("http://www.bungie.net/Platform/Destiny/SearchDestinyPlayer/All/#{params[:name]}/",
   #     :headers => {"X-API-Key" => BUNGIE_KEY})
