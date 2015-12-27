@@ -26,19 +26,19 @@ class ApiController < ApplicationController
   def progression
     response = HTTParty.get("http://www.bungie.net/Platform/Destiny/#{params[:membershipType]}/Account/#{params[:membershipId]}/Character/#{params[:charSelect]}/Progression/?definitions=True",
                             :headers => {"X-API-Key" => BUNGIE_KEY})
-    render json: {response: response.parsed_response}
+    returnData(response, params[:action])
   end
 
   def unique
     response = HTTParty.get("http://www.bungie.net/Platform/Destiny/Stats/UniqueWeapons/#{params[:membershipType]}/#{params[:membershipId]}/#{params[:charSelect]}/?definitions=True",
                             :headers => {"X-API-Key" => BUNGIE_KEY})
-    render json: {response: response.parsed_response}
+    returnData(response, params[:action])
   end
 
   def summary
     response = HTTParty.get("http://www.bungie.net/Platform/Destiny/#{params[:membershipType]}/Account/#{params[:membershipId]}/Character/#{params[:charSelect]}/?definitions=True",
                             :headers => {"X-API-Key" => BUNGIE_KEY})
-    render json: {response: response.parsed_response}
+    returnData(response, params[:action])
   end
 
 private

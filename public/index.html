@@ -17,7 +17,6 @@
   <div id='dataHere'>
     
   </div>
-  <p>Note: All data is being sent to the JS Console</p>
   </body>
 </html>
 
@@ -56,6 +55,17 @@
     <li>{{this.[0].values.kills.basic.displayValue}} kills</li>
     <li>{{this.[0].values.assists.basic.displayValue}} kills</li>
     <li>{{this.[0].values.deaths.basic.displayValue}} deaths</li>
+  </ul>
+  {{/each}}
+</script>
+
+<script id='progressionDetails' type='text/x-handlebars-template'>
+  <p>Your Activity History...</p>
+  {{#each game}}
+  <ul>
+    <li>{{this.[1].name}}</li>
+    <li>Level {{this.[0].level}}</li>
+    <li>Level Up in {{this.[0].progressToNextLevel}}xp</li>
   </ul>
   {{/each}}
 </script>

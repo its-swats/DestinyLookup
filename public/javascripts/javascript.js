@@ -36,6 +36,7 @@ var hitApi = function(){
           handleHistory(userData, definitions);
           break;
         case 'progression':
+          handleProgression(userData, definitions);
           break;
         case 'unique':
           break;
@@ -44,6 +45,14 @@ var hitApi = function(){
       }
     })
   })
+}
+
+var fillOutProfileData = function(data){
+  var template = $('#gatherInfo').html();
+  var template = Handlebars.compile(template);
+  var context = {'info': data};
+  var compiledHTML = template(context);
+  $('#gatheredData').html(compiledHTML);
 }
 
 var handleHistory = function(userData, definitions) {
@@ -58,14 +67,6 @@ var handleHistory = function(userData, definitions) {
   fillOutActivityHistory(activities);
 }
 
-var fillOutProfileData = function(data){
-  var template = $('#gatherInfo').html();
-  var template = Handlebars.compile(template);
-  var context = {'info': data};
-  var compiledHTML = template(context);
-  $('#gatheredData').html(compiledHTML);
-}
-
 var fillOutActivityHistory = function(data) {
   var template = $('#activityHistory').html();
   var template = Handlebars.compile(template);
@@ -74,17 +75,27 @@ var fillOutActivityHistory = function(data) {
   $('#dataHere').html(compiledHTML);
 }
 
+var handleProgression = function(userData, definitions) {
+  var factions = []
+  _.each(userData.progressions, function(progression) {
+    _.find(definitions['progressions'], function(progressionDefinition) {
+      if (progressionDefinition.progressionHash === progression.progressionHash) {
+        factions.push([progression, progressionDefinition]);
+      }
+    })
+  })
+  fillOutProgressionDetails(factions);
+}
+
+var fillOutProgressionDetails = function(data) {
+  var filtered = _.filter(data, function(pair) {
+    return _.has(pair[1], 'identifier');
+  })
+  var template = $('#progressionDetails').html();
+  var template = Handlebars.compile(template);
+  var context = {'game': filtered};
+  var compiledHTML = template(context);
+  $('#dataHere').html(compiledHTML);
+}
 
 
-// _.each(userData, function(someThing){
-//         _.each(someThing, function(secondThing){
-//           if (typeof secondThing === 'object') {
-//             _.find(definitions['activities'], function(newItem) {
-//               if (secondThing.activityHash === newItem.activityHash) {
-//                 activities.push(newItem)
-//               }
-//             })
-//           }
-//         })
-//         activityHistory(activities);
-//       })
