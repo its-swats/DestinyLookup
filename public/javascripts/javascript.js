@@ -29,11 +29,34 @@ var hitApi = function(){
       data: data
     })
     response.done(function(data){
-      console.log(data)
+      var userData = data['response']['Response']['data']
+      var definitions = data['response']['Response']['definitions']
+      switch(data.action) {
+        case 'history':
+          handleHistory(userData, definitions);
+          break;
+        case 'progression':
+          break;
+        case 'unique':
+          break;
+        case 'summary':
+          break;
+      }
     })
   })
 }
 
+var handleHistory = function(userData, definitions) {
+  var activities = []
+  _.each(userData.activities, function(activity){
+    _.find(definitions['activities'], function(activityDefinition) {
+      if (activityDefinition.activityHash === activity.activityDetails.referenceId) {
+        activities.push([activity, activityDefinition]);
+      }
+    })
+  })
+  fillOutActivityHistory(activities);
+}
 
 var fillOutProfileData = function(data){
   var template = $('#gatherInfo').html();
@@ -43,13 +66,25 @@ var fillOutProfileData = function(data){
   $('#gatheredData').html(compiledHTML);
 }
 
-
-var displayPvEData = function(data){
-  // debugger;
-  var template = $('#displayData').html();
+var fillOutActivityHistory = function(data) {
+  var template = $('#activityHistory').html();
   var template = Handlebars.compile(template);
-  var context = {'PvE': data};
+  var context = {'game': data};
   var compiledHTML = template(context);
   $('#dataHere').html(compiledHTML);
 }
 
+
+
+// _.each(userData, function(someThing){
+//         _.each(someThing, function(secondThing){
+//           if (typeof secondThing === 'object') {
+//             _.find(definitions['activities'], function(newItem) {
+//               if (secondThing.activityHash === newItem.activityHash) {
+//                 activities.push(newItem)
+//               }
+//             })
+//           }
+//         })
+//         activityHistory(activities);
+//       })

@@ -3,6 +3,7 @@
     <title>Bungie API Test</title>
     <script src='https://code.jquery.com/jquery-2.1.4.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.js'></script>
+    <script src='javascripts/underscore-min.js'></script>
     <script src='javascripts/javascript.js'></script>
   </head>
   <body>
@@ -31,7 +32,6 @@
       </select>
       <select name='apiHitType'>
         <option value='history'>Activity History</option>
-        <option value='inventory'>Retrieve Inventory</option>
         <option value='progression'>Progression Details</option>
         <option value='unique'>Unique Item Details</option>
         <option value='summary'>Character Summary</option>
@@ -44,5 +44,18 @@
   <p>some stuff</p>
   {{#each PvE}}
   <p>{{this.statId}} : {{this.basic.displayValue}}</p>
+  {{/each}}
+</script>
+
+<script id='activityHistory' type='text/x-handlebars-template'>
+  <p>Your Activity History...</p>
+  {{#each game}}
+  <ul>
+    <li>{{this.[1].activityName}}</li>
+    <li>{{this.[0].period}}</li>
+    <li>{{this.[0].values.kills.basic.displayValue}} kills</li>
+    <li>{{this.[0].values.assists.basic.displayValue}} kills</li>
+    <li>{{this.[0].values.deaths.basic.displayValue}} deaths</li>
+  </ul>
   {{/each}}
 </script>
