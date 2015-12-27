@@ -60,12 +60,23 @@
 </script>
 
 <script id='progressionDetails' type='text/x-handlebars-template'>
-  <p>Your Activity History...</p>
+  <p>Your Progression Details...</p>
   {{#each game}}
   <ul>
     <li>{{this.[1].name}}</li>
     <li>Level {{this.[0].level}}</li>
     <li>Level Up in {{this.[0].progressToNextLevel}}xp</li>
+  </ul>
+  {{/each}}
+</script>
+
+<script id='uniqueItemDetails' type='text/x-handlebars-template'>
+  <p>Your Exotic Weapon Details...</p>
+  {{#each item}}
+  <ul>
+    <li>{{this.[1].itemName}} - {{this.[1].itemTypeName}}</li>
+    <li>{{this.[0].values.uniqueWeaponKills.basic.displayValue}} kills</li>
+    <li>{{this.[0].values.uniqueWeaponPrecisionKills.basic.displayValue}} precision kills ({{this.[0].values.uniqueWeaponKillsPrecisionKills.basic.displayValue}})</li>
   </ul>
   {{/each}}
 </script>

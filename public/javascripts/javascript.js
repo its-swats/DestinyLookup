@@ -39,6 +39,7 @@ var hitApi = function(){
           handleProgression(userData, definitions);
           break;
         case 'unique':
+          handleUniqueItems(userData, definitions);
           break;
         case 'summary':
           break;
@@ -98,4 +99,25 @@ var fillOutProgressionDetails = function(data) {
   $('#dataHere').html(compiledHTML);
 }
 
+var handleUniqueItems = function(userData, definitions) {
+  var items = []
+  console.log(userData)
+  console.log(definitions)
+  _.each(userData['weapons'], function(weapon){
+    _.find(definitions['items'], function(weaponDefinition){
+      if (weaponDefinition.itemHash === weapon.referenceId) {
+        items.push([weapon, weaponDefinition]);
+      }
+    })
+  })
+  console.log(items)
+  fillOutUniqueItemDetails(items);
+}
 
+var fillOutUniqueItemDetails = function(data) {
+  var template = $('#uniqueItemDetails').html();
+  var template = Handlebars.compile(template);
+  var context = {'item': data};
+  var compiledHTML = template(context);
+  $('#dataHere').html(compiledHTML);
+}
