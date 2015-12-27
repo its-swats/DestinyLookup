@@ -20,32 +20,33 @@ class ApiController < ApplicationController
   def history
     response = HTTParty.get("http://www.bungie.net/Platform/Destiny/Stats/ActivityHistory/#{params[:membershipType]}/#{params[:membershipId]}/#{params[:charSelect]}/?mode=NightFall&page=0&count=100&definitions=True",
                             :headers => {"X-API-Key" => BUNGIE_KEY})
-    render json: {response: response.parsed_response}
-  end
-
-  def inventory
-    response = HTTParty.get("http://www.bungie.net/Platform/Destiny/#{params[:membershipType]}/Account/#{params[:membershipId]}/Character/#{params[:charSelect]}/Activities/?definitions=True",
-                            :headers => {"X-API-Key" => BUNGIE_KEY})
-
-    render json: {response: response.parsed_response}
+    returnData(response, params[:action])
   end
 
   def progression
     response = HTTParty.get("http://www.bungie.net/Platform/Destiny/#{params[:membershipType]}/Account/#{params[:membershipId]}/Character/#{params[:charSelect]}/Progression/?definitions=True",
                             :headers => {"X-API-Key" => BUNGIE_KEY})
-    render json: {response: response.parsed_response}
+    returnData(response, params[:action])
   end
 
   def unique
     response = HTTParty.get("http://www.bungie.net/Platform/Destiny/Stats/UniqueWeapons/#{params[:membershipType]}/#{params[:membershipId]}/#{params[:charSelect]}/?definitions=True",
                             :headers => {"X-API-Key" => BUNGIE_KEY})
-    render json: {response: response.parsed_response}
+    returnData(response, params[:action])
   end
 
   def summary
     response = HTTParty.get("http://www.bungie.net/Platform/Destiny/#{params[:membershipType]}/Account/#{params[:membershipId]}/Character/#{params[:charSelect]}/?definitions=True",
                             :headers => {"X-API-Key" => BUNGIE_KEY})
-    render json: {response: response.parsed_response}
+    returnData(response, params[:action])
+  end
+
+private
+
+  def returnData(response, action)
+    render json: {response: response.parsed_response,
+                  action: action
+                  }
   end
 
   # def stats

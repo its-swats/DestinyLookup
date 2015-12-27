@@ -29,11 +29,23 @@ var hitApi = function(){
       data: data
     })
     response.done(function(data){
-      console.log(data)
+      var userData = data['response']['Response']['data']
+      var definitions = data['response']['Response']['definitions']
+      switch(data.action) {
+        case 'history':
+          handleHistory(userData, definitions);
+          break;
+        case 'progression':
+          handleProgression(userData, definitions);
+          break;
+        case 'unique':
+          break;
+        case 'summary':
+          break;
+      }
     })
   })
 }
-
 
 var fillOutProfileData = function(data){
   var template = $('#gatherInfo').html();
@@ -43,13 +55,47 @@ var fillOutProfileData = function(data){
   $('#gatheredData').html(compiledHTML);
 }
 
+var handleHistory = function(userData, definitions) {
+  var activities = []
+  _.each(userData.activities, function(activity){
+    _.find(definitions['activities'], function(activityDefinition) {
+      if (activityDefinition.activityHash === activity.activityDetails.referenceId) {
+        activities.push([activity, activityDefinition]);
+      }
+    })
+  })
+  fillOutActivityHistory(activities);
+}
 
-var displayPvEData = function(data){
-  // debugger;
-  var template = $('#displayData').html();
+var fillOutActivityHistory = function(data) {
+  var template = $('#activityHistory').html();
   var template = Handlebars.compile(template);
-  var context = {'PvE': data};
+  var context = {'game': data};
   var compiledHTML = template(context);
   $('#dataHere').html(compiledHTML);
 }
+
+var handleProgression = function(userData, definitions) {
+  var factions = []
+  _.each(userData.progressions, function(progression) {
+    _.find(definitions['progressions'], function(progressionDefinition) {
+      if (progressionDefinition.progressionHash === progression.progressionHash) {
+        factions.push([progression, progressionDefinition]);
+      }
+    })
+  })
+  fillOutProgressionDetails(factions);
+}
+
+var fillOutProgressionDetails = function(data) {
+  var filtered = _.filter(data, function(pair) {
+    return _.has(pair[1], 'identifier');
+  })
+  var template = $('#progressionDetails').html();
+  var template = Handlebars.compile(template);
+  var context = {'game': filtered};
+  var compiledHTML = template(context);
+  $('#dataHere').html(compiledHTML);
+}
+
 
